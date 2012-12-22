@@ -3,7 +3,7 @@ WBH=..
 INC=-I${WBH}/include  # wb.h and cudatimer.h is in include folder of this repo
 
 %: %.cu 
-	nvcc -o $@ -lrt ${INC} ${WBH}/linux/cudatimer.cpp $<
+	nvcc -o $@ -lrt -lcudart ${INC} ${WBH}/linux/cudatimer.cpp $<
 
 tests: test_mp0
 

@@ -144,6 +144,7 @@ char* wbArg_getInputFile( wbArg_t argInfo, int argNum )
     return argInfo.argv[ argNum + 1 ];
 }
 
+// mp1 vector read
 float* wbImport( char* fname, int* itemNum )
 {
     // Open file
@@ -183,6 +184,55 @@ float* wbImport( char* fname, int* itemNum )
     return fBuf;
 }
 
+// mp2 matrix 
+float* wbImport( char* fname, int* numRows, int* numColumns) {
+    // Open file
+
+    std::ifstream inFile( fname );
+
+    if ( !inFile )
+    {
+        std::cout << "Error opening input file: " << fname << " !\n";
+        exit( 1 );
+    }
+
+    // Read file to vector
+
+    std::string sval;
+    float fval;
+    std::vector< float > fVec;
+
+    std::string line;
+    int numcolumns = -1;
+    int c = 0;
+    int numrows = 0;
+    while (std::getline(inFile, line)) {
+        std::istringstream linestream(line);
+        numrows++;
+       
+        c = 0;
+        while(linestream >> fval) {
+            fVec.push_back( fval );
+            ++c;
+        }
+        if (numcolumns < 0)
+            numcolumns = c;
+        else
+            assert(numcolumns == c && "Matrix has all rows the same");
+    }
+
+    // Vector to malloc memory
+    *numRows = numrows; 
+    *numColumns = numcolumns;
+
+    float* fBuf = ( float* ) malloc( numrows * numcolumns * sizeof( float ) );
+
+    for ( int i = 0; i < numrows * numcolumns; ++i ) {
+        fBuf[i] = fVec[i];
+    }
+
+    return fBuf;
+}
 
 enum wbTimeType
 {
@@ -272,11 +322,24 @@ void wbSolution( wbArg_t args, const T& t, const S& s )
 
 // used for mp1 printing out hostArray 
 template < typename T>
-void wbSolution( wbArg_t args, const T& t, const int& c )
+void wbSolution( wbArg_t args, const T& t, const int c )
 {
     for (int i = 0; i < c; ++i)
         std::cout << t[i] << ' ';
     std::cout << std::endl;
+
+    return;
+}
+
+// used for mp2 printing out hostMatrix 
+template < typename T>
+void wbSolution( wbArg_t args, const T& t, const int numRows, const int numColumns )
+{
+    for (int i = 0; i < numRows; ++i) {
+        for (int j = 0; j < numColumns; ++j)
+            std::cout << t[i*numColumns + j] << ' ';
+        std::cout << std::endl;
+    }
 
     return;
 }
