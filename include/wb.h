@@ -16,6 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#ifndef WB
+#define WB
 #include <algorithm>
 #include <cassert>
 #include <fstream>
@@ -218,7 +220,7 @@ float* wbImport( char* fname, int* numRows, int* numColumns) {
         if (numcolumns < 0)
             numcolumns = c;
         else
-            assert(numcolumns == c && "Matrix has all rows the same");
+            assert(numcolumns == c);  // Matrix has all rows the same
     }
 
     // Vector to malloc memory
@@ -343,4 +345,5 @@ void wbSolution( wbArg_t args, const T& t, const int numRows, const int numColum
 
     return;
 }
+#endif  // ifndef WB
 ///////////////////////////////////////////////////////////////////////////////
