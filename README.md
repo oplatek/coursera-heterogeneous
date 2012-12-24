@@ -4,7 +4,7 @@ coursera-heterogeneous
  for the course https://www.coursera.org/course/hetero.
  * TO RUN IT ON LINUX FROM THIS DIRECTORY(with this readme): cd test && make tests
  * I add Linux functionality and Makefile to original Windows version from https://bitbucket.org/ashwin/cudatimer
- * I busttled wbLog with numerous template variants so it fits all logs in mp0 and mp1.
+ * I busttled wbLog with numerous template variants so it fits all logs in mp0, mp1 and mp2.
  * I *added timer functionality* for Linux.
  * I splitted the Windows and Linux specific code into two version:
     * windows/cudatimer.cpp # set up your build system for windows *UNTESTED*
